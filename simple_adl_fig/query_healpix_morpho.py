@@ -1,6 +1,8 @@
 """HEALPix version of query_morpho: DELVE-MC DR3 data for a set of nside=32
 pixels, with morphocloud star/galaxy separation and NO calibration offsets.
 
+Author: Mahdieh Navabi
+
 query(profile, pixels, rmax, stars=True, galaxies=False)
     pixels : nside=32 HEALPix pixel numbers (e.g. the search pixel plus its
              neighbours, from hp.get_all_neighbours).

@@ -2,8 +2,9 @@
 """
 Generic python script.
 
-Modified for DELVE-MC by 
+Modified for DELVE-MC by
 Joanna Sakowska
+Mahdieh Navabi
 """
 __author__ = "Sidney Mau"
 
