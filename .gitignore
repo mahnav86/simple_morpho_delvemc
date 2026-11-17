@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+# Generated outputs (regenerable, kept out of git)
+plot_dir/
+plot_dir_*/
+first result/
+results_dir/
+log_dir/
+files/
+nohup.out
