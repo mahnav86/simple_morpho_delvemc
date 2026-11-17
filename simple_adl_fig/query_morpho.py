@@ -1,6 +1,8 @@
 """Drop-in replacement for query_dl.query: DELVE-MC DR3 cone search with
 morphocloud star/galaxy separation (no SQL star/galaxy cuts).
 
+Author: Mahdieh Navabi
+
 Same signature as query_dl.query. `profile` is accepted for compatibility
 but not used (the public Data Lab TAP service needs no profile).
 """

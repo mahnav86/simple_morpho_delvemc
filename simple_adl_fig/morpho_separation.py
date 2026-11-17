@@ -2,6 +2,8 @@
 
 query(ra, dec, radius, stars=True, galaxies=False, rmax=23.0)
     -> astropy Table of stars, galaxies, or (stars, galaxies)
+
+Author: Mahdieh Navabi
 """
 import time
 
