@@ -11,7 +11,7 @@ from functools import lru_cache
 import numpy as np
 from astropy.table import Table
 
-from simple_adl_fig.morpho_separation import fetch, classify
+from simple_adl_morpho.morpho_separation import fetch, classify
 
 
 @lru_cache(maxsize=8)

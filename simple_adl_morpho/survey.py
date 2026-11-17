@@ -13,10 +13,10 @@ import scipy.stats
 import scipy.interpolate
 import scipy.ndimage
 
-import simple_adl_fig.query_morpho
+import simple_adl_morpho.query_morpho
 # import simple_adl.query_healpix
 # import simple_adl.query_healpix_nei
-import simple_adl_fig.projector
+import simple_adl_morpho.projector
 
 import fitsio as fits
 #-------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ class Region():
 
         self.ra = ra
         self.dec = dec
-        self.proj = simple_adl_fig.projector.Projector(self.ra, self.dec)
+        self.proj = simple_adl_morpho.projector.Projector(self.ra, self.dec)
         self.pix_center = hp.ang2pix(self.nside, self.ra, self.dec, lonlat=True)
 
 
@@ -124,7 +124,7 @@ class Region():
         # 1.56-1.86 deg at nside 32) plus margin for the 2' smoothing. Peaks are
         # still kept only inside the pixel (cutcut in find_peaks).
         r_radius = 1.9 # MN: radius of the region in degrees
-        data = simple_adl_fig.query_morpho.query(self.survey.catalog['profile'], self.ra, self.dec, radius=r_radius, gmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)
+        data = simple_adl_morpho.query_morpho.query(self.survey.catalog['profile'], self.ra, self.dec, radius=r_radius, gmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)
 
         # pix_nside_select = hp.ang2pix(nside=self.nside, theta=self.ra, phi=self.dec, nest=False, lonlat=True)
         # data = simple_adl.query_healpix.query(self.survey.catalog['profile'], pix_nside_select, gmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)

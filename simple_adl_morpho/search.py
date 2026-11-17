@@ -13,9 +13,9 @@ import numpy as np
 import healpy as hp
 import scipy.interpolate
 
-import simple_adl_fig.survey
-import simple_adl_fig.isochrone
-from simple_adl_fig.coordinate_tools import distanceModulusToDistance, angsep
+import simple_adl_morpho.survey
+import simple_adl_morpho.isochrone
+from simple_adl_morpho.coordinate_tools import distanceModulusToDistance, angsep
 
 #-------------------------------------------------------------------------------
 
@@ -185,11 +185,11 @@ if __name__ == '__main__':
 
     with open(args.config, 'r') as ymlfile: # opens
         cfg = yaml.load(ymlfile, Loader=yaml.SafeLoader)
-        survey = simple_adl_fig.survey.Survey(cfg)
+        survey = simple_adl_morpho.survey.Survey(cfg)
 
     #---------------------------------------------------------------------------
 
-    region = simple_adl_fig.survey.Region(survey, ra, dec)
+    region = simple_adl_morpho.survey.Region(survey, ra, dec)
     print('Search coordinates: (RA, Dec) = ({:0.2f}, {:0.2f})'.format(region.ra, region.dec))
     print('Search healpixel: {} (nside = {})'.format(region.pix_center, region.nside))
 
@@ -215,7 +215,7 @@ if __name__ == '__main__':
 
     #results = [np.empty((1,9)) for distance_modulus in distance_modulus_search_array]
 
-    iso_search_array = [simple_adl_fig.isochrone.Isochrone(survey=survey.isochrone['survey'],
+    iso_search_array = [simple_adl_morpho.isochrone.Isochrone(survey=survey.isochrone['survey'],
                                                        band_1=survey.band_1.lower(),
                                                        band_2=survey.band_2.lower(),
                                                        age=12.0, #survey.isochrone['age'],

@@ -28,7 +28,7 @@ import healpy as hp
 import numpy as np
 import pyvo
 
-from simple_adl_fig.morpho_separation import (
+from simple_adl_morpho.morpho_separation import (
     TAP_URL, MAG_SENT, R_g, R_r, R_i, R_z,
     classify,
 )

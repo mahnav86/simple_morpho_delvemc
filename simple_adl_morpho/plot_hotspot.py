@@ -16,10 +16,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-import simple_adl_fig.survey
-import simple_adl_fig.isochrone
-import simple_adl_fig.coordinate_tools
-from simple_adl_fig.search import cut_isochrone_path
+import simple_adl_morpho.survey
+import simple_adl_morpho.isochrone
+import simple_adl_morpho.coordinate_tools
+from simple_adl_morpho.search import cut_isochrone_path
 
 #-------------------------------------------------------------------------------
 
@@ -44,11 +44,11 @@ if __name__ == '__main__':
 
     with open(args.config, 'r') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.SafeLoader)
-        survey = simple_adl_fig.survey.Survey(cfg)
+        survey = simple_adl_morpho.survey.Survey(cfg)
 
     #---------------------------------------------------------------------------
 
-    region = simple_adl_fig.survey.Region(survey, args.ra, args.dec)
+    region = simple_adl_morpho.survey.Region(survey, args.ra, args.dec)
     print('Plot coordinates: (RA, Dec) = ({:0.2f}, {:0.2f})'.format(region.ra, region.dec))
 
     # Apply filters
@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
     #---------------------------------------------------------------------------
 
-    iso = simple_adl_fig.isochrone.Isochrone(survey=survey.isochrone['survey'],
+    iso = simple_adl_morpho.isochrone.Isochrone(survey=survey.isochrone['survey'],
                               band_1=survey.band_1.lower(),
                               band_2=survey.band_2.lower(),
                               age=12.0, #survey.isochrone['age'],
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     r0 = 1.5 * extension # 3.0 # set as g-radius 
     r1 = 3.0 * extension # 5.0 rnear? 
     r2 = np.sqrt(r0**2 + r1**2) # rfar?
-    angsep_stars = simple_adl_fig.coordinate_tools.angsep(args.ra, args.dec, stars[survey.catalog['basis_1']], stars[survey.catalog['basis_2']])
+    angsep_stars = simple_adl_morpho.coordinate_tools.angsep(args.ra, args.dec, stars[survey.catalog['basis_1']], stars[survey.catalog['basis_2']])
     inner = (angsep_stars < r0)
     outer = ((angsep_stars > r1) & (angsep_stars < r2))
     background = (angsep_stars > r2)
@@ -350,7 +350,7 @@ if __name__ == '__main__':
     plt.sca(ax)
 
 
-    angsep_galaxies = simple_adl_fig.coordinate_tools.angsep(args.ra, args.dec, galaxies[survey.catalog['basis_1']], galaxies[survey.catalog['basis_2']])
+    angsep_galaxies = simple_adl_morpho.coordinate_tools.angsep(args.ra, args.dec, galaxies[survey.catalog['basis_1']], galaxies[survey.catalog['basis_2']])
 
     annulus_galaxies = (angsep_galaxies > r0) & (angsep_galaxies < 0.5)
     nbhd_galaxies = (angsep_galaxies < r0)

@@ -11,7 +11,7 @@ import os
 import glob
 import subprocess
 
-import simple_adl_fig.search
+import simple_adl_morpho.search
 
 import csv
 import pandas as pd
@@ -44,7 +44,7 @@ def submit_plot_job(ra, dec, mod):
     outfile = 'candidate_{:0.2f}_{:0.2f}_{:0.2f}.png'.format(ra, dec, mod)
     
     # Commands
-    command = 'python {}/plot_hotspot.py --ra {:0.2f} --dec {:0.2f} --mod {:0.2f} --outfile {}'.format(os.path.dirname(simple_adl_fig.search.__file__), ra, dec, mod, outfile)
+    command = 'python {}/plot_hotspot.py --ra {:0.2f} --dec {:0.2f} --mod {:0.2f} --outfile {}'.format(os.path.dirname(simple_adl_morpho.search.__file__), ra, dec, mod, outfile)
     print(command)
     print('Preparing plotting jobs...')
     subprocess.run(command.split(' '), shell=False)
@@ -75,8 +75,8 @@ if __name__ == '__main__':
     # Reading in candidates
     # JDS: Temporarily setting result directory
     # JDS: Need to formalise this to use the config
-    results_dir = 'Documents/simple_adl/simple_adl_fig/results_dir'
-    plots_dir = 'Documents/simple_adl/simple_adl_fig/plot_dir/'
+    results_dir = 'Documents/simple_adl/simple_adl_morpho/results_dir'
+    plots_dir = 'Documents/simple_adl/simple_adl_morpho/plot_dir/'
     if not os.path.exists(plots_dir):
         # If the folder doesn't exist, create it
         os.makedirs(plots_dir)

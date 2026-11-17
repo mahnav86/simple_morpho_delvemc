@@ -12,12 +12,12 @@ import scipy.interpolate
 from collections import OrderedDict as odict
 import os
 
-import simple_adl_fig
+import simple_adl_morpho
 
 #------------------------------------------------------------------------------
 
 class Isochrone():
-    def __init__(self, age=12.0, metallicity=0.00010, distance_modulus=16.0, survey='des', band_1='g', band_2='r', filename=os.path.join(os.path.dirname(simple_adl_fig.__file__),'isochrones/iso_a12.0_z0.00010.dat')):
+    def __init__(self, age=12.0, metallicity=0.00010, distance_modulus=16.0, survey='des', band_1='g', band_2='r', filename=os.path.join(os.path.dirname(simple_adl_morpho.__file__),'isochrones/iso_a12.0_z0.00010.dat')):
         self.age = age
         self.metallicity = metallicity
         self.distance_modulus = distance_modulus

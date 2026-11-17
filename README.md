@@ -3,7 +3,7 @@
 Search for ultra-faint Milky Way satellite (dwarf galaxy) candidates in DELVE-MC DR3, using a
 simple binned hotspot search with morphocloud star/galaxy separation.
 
-This is the `simple_adl_fig` package, derived from `simple_adl` (Sidney Mau, MIT licence).
+This is the `simple_adl_morpho` package, derived from `simple_adl` (Sidney Mau, MIT licence).
 It is a work in progress.
 
 ## What is in this repository
@@ -25,14 +25,14 @@ It is a work in progress.
 ## Installation
 
 1. Clone the repository and put its **parent folder** on `PYTHONPATH`, because the code imports
-   itself as `simple_adl_fig.<module>`:
+   itself as `simple_adl_morpho.<module>`:
 
    ```bash
    git clone https://github.com/mahnav86/simple_morpho_delvemc.git
    export PYTHONPATH=$PWD:$PYTHONPATH
    ```
 
-   The folder that contains `simple_adl_fig/` must be the one on `PYTHONPATH`.
+   The folder that contains `simple_adl_morpho/` must be the one on `PYTHONPATH`.
 
 2. Create a Python environment with:
    `numpy`, `scipy`, `pandas`, `astropy`, `healpy`, `pyyaml`, `fitsio`, `matplotlib`, `pyvo`,
@@ -55,14 +55,14 @@ It is a work in progress.
 Search one position by coordinates, or by HEALPix pixel (nside 32):
 
 ```bash
-python simple_adl_fig/search.py --config simple_adl_fig/config.yaml --outfile out.csv --ra 56.36 --dec -60.45
-python simple_adl_fig/search.py --config simple_adl_fig/config.yaml --outfile out.csv --nside 32 --ipix 11460
+python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outfile out.csv --ra 56.36 --dec -60.45
+python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outfile out.csv --nside 32 --ipix 11460
 ```
 
 Plot one candidate:
 
 ```bash
-python simple_adl_fig/plot_hotspot.py --ra 56.36 --dec -60.45 --mod 19.5
+python simple_adl_morpho/plot_hotspot.py --ra 56.36 --dec -60.45 --mod 19.5
 ```
 
 ## Parallel search procedure
@@ -71,10 +71,10 @@ python simple_adl_fig/plot_hotspot.py --ra 56.36 --dec -60.45 --mod 19.5
 2. In `parallel_search.py`, set the number of threads and the file paths for your machine.
    On Linux, check the number of threads per core with `lscpu`. Try a short test run with fewer
    threads first.
-3. Run `python simple_adl_fig/parallel_search.py`. On a cluster, use `nohup` so the job keeps
+3. Run `python simple_adl_morpho/parallel_search.py`. On a cluster, use `nohup` so the job keeps
    running after you disconnect, then follow it with `tail -f nohup.out`.
 4. Check per-search logs in `log_dir/`.
-5. Run `python simple_adl_fig/make_list.py` to create `candidate_list.csv`, and review it.
+5. Run `python simple_adl_morpho/make_list.py` to create `candidate_list.csv`, and review it.
 6. In `parallel_plot_hotspot.py`, set the thread count and paths, then run it to make plots.
 
 ## Checking the output

@@ -12,7 +12,7 @@ import subprocess
 import yaml
 import healpy as hp
 
-import simple_adl_fig.search
+import simple_adl_morpho.search
 
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -58,7 +58,7 @@ def submit_job(healpix_id):
     outfile = 'results_{}.csv'.format(healpix_id)
 
     # Commands
-    command = 'python {}/search.py --nside 32 --ipix {} --outfile {}'.format(os.path.dirname(simple_adl_fig.search.__file__), healpix_id, outfile)
+    command = 'python {}/search.py --nside 32 --ipix {} --outfile {}'.format(os.path.dirname(simple_adl_morpho.search.__file__), healpix_id, outfile)
 
     # Log
     # Change log directory here
