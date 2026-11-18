@@ -1,15 +1,18 @@
 """Cone query on DELVE-MC DR3 + morphocloud star/galaxy separation.
 
-query(ra, dec, radius, stars=True, galaxies=False, rmax=23.0)
+query(ra, dec, radius, stars=True, galaxies=False, rmax=None)
     -> astropy Table of stars, galaxies, or (stars, galaxies)
+    rmax=None uses catalog.mag_max from config.yaml in this package directory.
 
 Author: Mahdieh Navabi
 """
 import time
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pyvo
+import yaml
 from astropy.table import Table
 
 from morphocloud.features import engineer_features
@@ -18,6 +21,7 @@ from morphocloud.infer import StarGalaxyClassifier
 R_g, R_r, R_i, R_z = 3.1863, 2.1401, 1.5690, 1.196   # DECam A_band / E(B-V)
 TAP_URL = "https://datalab.noirlab.edu/tap"
 MAG_SENT, ERR_SENT, FWHM_SENT = 99.0, 9.9, 999990.0  # DELVE-MC missing-value conventions
+CONFIG_FILE = Path(__file__).resolve().parent / "config.yaml"
 
 _clf = None
 
@@ -29,7 +33,16 @@ def _model():
     return _clf
 
 
-def fetch(ra, dec, radius, rmax=23.0):
+def default_rmax():
+    """r-band magnitude limit from catalog.mag_max in config.yaml."""
+    with open(CONFIG_FILE, "r") as f:
+        cfg = yaml.safe_load(f)
+    return float(cfg["catalog"]["mag_max"])
+
+
+def fetch(ra, dec, radius, rmax=None):
+    if rmax is None:
+        rmax = default_rmax()
     # RA box is a cheap pre-filter; the ACOS distance cut below stays for exactness
     dra = radius / np.cos(np.radians(dec))
     adql = f"""
@@ -110,7 +123,9 @@ def classify(dl):
     return out
 
 
-def query(ra, dec, radius, stars=True, galaxies=False, rmax=23):
+def query(ra, dec, radius, stars=True, galaxies=False, rmax=None):
+    if rmax is None:
+        rmax = default_rmax()
     dl = fetch(ra, dec, radius, rmax=rmax)
     dl = dl[dl["brickuniq"].map({"t": True, "f": False, True: True, False: False}).astype(bool)]
     if len(dl) == 0:

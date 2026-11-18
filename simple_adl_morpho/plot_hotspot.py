@@ -398,7 +398,7 @@ if __name__ == '__main__':
     plt.sca(ax)
     
     xbins = np.arange(-0.3, 1.1, 0.1)
-    ybins = np.arange(16., 24.0 + 0.5, 0.5)
+    ybins = np.arange(16., survey.catalog['mag_max'] + 0.5, 0.5)
     foreground = np.histogram2d(color[inner], mag[inner], bins=[xbins, ybins])
     background = np.histogram2d(color[outer], mag[outer], bins=[xbins, ybins])
     fg = foreground[0].T
@@ -414,7 +414,7 @@ if __name__ == '__main__':
         plt.plot(iso.color, iso.mag+iso.distance_modulus, lw=1, c='k')
     
     ax.set_xlim(-0.3, 1.0)
-    ax.set_ylim(24.0, 16.0)
+    ax.set_ylim(survey.catalog['mag_max'], 16.0)
     ax.set_xlabel('${} - {}$'.format(survey.band_1.lower(), survey.band_2.lower()))
     ax.set_ylabel('${}$'.format(survey.band_1.lower()))
     
