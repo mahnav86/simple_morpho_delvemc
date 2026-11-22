@@ -55,7 +55,7 @@ Activate the conda environment with
 
 ```bash
  conda activate morphocloud
-```bash
+```
 
 Search one position by coordinates, or by HEALPix pixel (nside 32):
 
