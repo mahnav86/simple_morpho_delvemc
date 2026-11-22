@@ -14,6 +14,7 @@ import scipy.interpolate
 import scipy.ndimage
 
 import simple_adl_morpho.query_morpho
+import simple_adl_morpho.query_healpix_morpho
 # import simple_adl.query_healpix
 # import simple_adl.query_healpix_nei
 import simple_adl_morpho.projector
@@ -124,7 +125,13 @@ class Region():
         # 1.56-1.86 deg at nside 32) plus margin for the 2' smoothing. Peaks are
         # still kept only inside the pixel (cutcut in find_peaks).
         r_radius = 1.9 # MN: radius of the region in degrees
-        data = simple_adl_morpho.query_morpho.query(self.survey.catalog['profile'], self.ra, self.dec, radius=r_radius, gmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)
+
+        # Query mode, chosen per run: 'cone' (default, coordinates) or 'healpix'
+        # (ring256 query of the nside=32 pixel). Set with search.py --query.
+        if self.survey.catalog.get('query', 'cone') == 'healpix':
+            data = simple_adl_morpho.query_healpix_morpho.query(self.survey.catalog['profile'], [self.pix_center], rmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)
+        else:
+            data = simple_adl_morpho.query_morpho.query(self.survey.catalog['profile'], self.ra, self.dec, radius=r_radius, gmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)
 
         # pix_nside_select = hp.ang2pix(nside=self.nside, theta=self.ra, phi=self.dec, nest=False, lonlat=True)
         # data = simple_adl.query_healpix.query(self.survey.catalog['profile'], pix_nside_select, gmax=self.survey.catalog['mag_max'], stars=stars, galaxies=galaxies)

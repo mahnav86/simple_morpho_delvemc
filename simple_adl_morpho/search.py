@@ -95,6 +95,7 @@ def write_output(results_dir, nside, pix_nside_select, ra_peak_array, dec_peak_a
     data = [tuple(row) for row in np.stack([sig_peak_array, ra_peak_array, dec_peak_array, distance_modulus_array, r_peak_array, n_obs_peak_array, n_obs_half_peak_array, n_model_peak_array, mc_source_id_array], axis=-1)]
     arr = np.array(data, dtype=[('SIG', float), ('RA', float), ('DEC', float), ('MODULUS', float), ('R', float), ('N_OBS', float), ('N_OBS_HALF', float), ('N_MODEL', float), ('MC_SOURCE_ID', int)])
     #np.save(outfile, arr)
+    os.makedirs(results_dir, exist_ok=True)  # create results_dir if it does not exist
     f = open(os.path.join(results_dir,outfile), 'ab')
     np.savetxt(f, arr, delimiter=',')
     f.close()
@@ -170,6 +171,8 @@ if __name__ == '__main__':
                         help='Nside of HEALPix pixelization [int]')
     parser.add_argument('--ipix',type=int,required=False,
                         help='Pixel index [int]')
+    parser.add_argument('--query',type=str,required=False,choices=['cone','healpix'],
+                        help='Catalogue query: cone (coordinates, default) or healpix (nside=32 pixel)')
     args = parser.parse_args()
 
     if args.ra and args.dec:
@@ -185,6 +188,8 @@ if __name__ == '__main__':
 
     with open(args.config, 'r') as ymlfile: # opens
         cfg = yaml.load(ymlfile, Loader=yaml.SafeLoader)
+        if args.query:
+            cfg['catalog']['query'] = args.query  # overrides config for this run only
         survey = simple_adl_morpho.survey.Survey(cfg)
 
     #---------------------------------------------------------------------------

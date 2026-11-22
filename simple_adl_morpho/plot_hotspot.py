@@ -40,10 +40,14 @@ if __name__ == '__main__':
                         help='Declination of target position [deg]')
     parser.add_argument('--mod',type=float,required=False,
                         help='Distance modulus [mag]')
+    parser.add_argument('--query',type=str,required=False,choices=['cone','healpix'],
+                        help='Catalogue query: cone (coordinates, default) or healpix (nside=32 pixel)')
     args = parser.parse_args()
 
     with open(args.config, 'r') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.SafeLoader)
+        if args.query:
+            cfg['catalog']['query'] = args.query  # same data source as search.py --query
         survey = simple_adl_morpho.survey.Survey(cfg)
 
     #---------------------------------------------------------------------------
@@ -426,6 +430,7 @@ if __name__ == '__main__':
     #---------------------------------------------------------------------------
    
     file_name = 'candidate_{:0.2f}_{:0.2f}_{:2.2f},r={:0.2f}'.format(args.ra, args.dec, args.mod, r0)
+    os.makedirs('plot_dir', exist_ok=True)  # create plot_dir if it does not exist
     fig.savefig('plot_dir/{}.png'.format(file_name), bbox_inches='tight')
     # fig.savefig(os.path.join(survey.output['save_dir'],args.outfile), bbox_inches='tight')
     plt.close(fig)

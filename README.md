@@ -59,6 +59,28 @@ python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outf
 python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outfile out.csv --nside 32 --ipix 11460
 ```
 
+### Choosing the query mode
+
+`search.py` and `plot_hotspot.py` take `--query cone|healpix`:
+
+- `cone` (default): queries a 1.9 deg circle around the search position by coordinates
+  (`query_morpho`).
+- `healpix`: queries the `ring256` pixels covering the nside=32 search pixel
+  (`query_healpix_morpho`). Use with `--nside 32 --ipix <pixel>`.
+
+The default is `cone`, because `config.yaml` has no `query` key. `--query` overrides it for that
+run only. Use the same mode for a search and its plot.
+
+```bash
+# cone (default)
+python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outfile out.csv --nside 32 --ipix 11812
+# healpix
+python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outfile out.csv --nside 32 --ipix 11812 --query healpix
+```
+
+The two modes return different catalogues, so the peaks differ. State the mode when you compare
+or report results.
+
 Plot one candidate:
 
 ```bash
@@ -92,8 +114,8 @@ Logs, results, plots, candidate lists and `nohup.out` are generated and are list
 
 ## Known issues
 
-- `survey.py` uses the cone query (`query_morpho`). The HEALPix query (`query_healpix_morpho`)
-  is written but not yet wired in.
+- `parallel_search.py` still has a hard-coded morphocloud Python path and log paths for one
+  machine. Check them before a run.
 - Some known objects are missed by the search. See the findings notes in the project folder.
 
 ## Licence
