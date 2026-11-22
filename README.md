@@ -51,6 +51,11 @@ It is a work in progress.
 - `output`: where candidate lists, logs, results and plots are written.
 
 ## Single search
+Activate the conda environment with
+
+```bash
+ conda activate morphocloud
+```bash
 
 Search one position by coordinates, or by HEALPix pixel (nside 32):
 
