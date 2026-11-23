@@ -11,7 +11,7 @@ It is a work in progress.
 | File | Purpose |
 |---|---|
 | `query_morpho.py` | Cone search (default radius 1.9 deg) on DELVE-MC DR3, with morphocloud star/galaxy separation. Used by `survey.py`. |
-| `query_healpix_morpho.py` | HEALPix version: selects objects by `ring256` for a set of nside=32 pixels, no calibration. |
+| `query_healpix_morpho.py` | HEALPix version: selects objects by `ring256` for a set of nside=32 pixels. |
 | `morpho_separation.py` | TAP fetch and morphocloud classifier used by the queries above. |
 | `query_dl.py`, `query_healpix.py`, `query_healpix_nei.py` | Earlier Data Lab queries (SQL star/galaxy cuts). |
 | `survey.py`, `search.py` | Survey setup and the hotspot search for one position. |
