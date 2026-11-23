@@ -58,11 +58,11 @@ def submit_job(healpix_id):
     outfile = 'results_{}.csv'.format(healpix_id)
 
     # Commands
-    command = 'python {}/search.py --nside 32 --ipix {} --outfile {}'.format(os.path.dirname(simple_adl_morpho.search.__file__), healpix_id, outfile)
+    command = 'python {}/search.py --nside 32 --ipix {} --outfile {} --query healpix'.format(os.path.dirname(simple_adl_morpho.search.__file__), healpix_id, outfile)
 
     # Log
     # Change log directory here
-    log_dir = '/user/HS501/mn00962/Documents/simple_adl/simple_adl/log_dir'
+    log_dir = '/user/HS501/mn00962/Documents/simple_morpho_delvemc/simple_adl_morpho/log_dir'
     log_name = '{}/results_{}.log'.format(log_dir, healpix_id)
 
     # Main function
@@ -100,14 +100,19 @@ if __name__ == '__main__':
         cfg = yaml.load(ymlfile, Loader=yaml.SafeLoader)
 
     # # Reading in coordinates
-    search_coordinates = pd.read_csv('{}.csv'.format('search_coordinates'))
+    search_coordinates = pd.read_csv('{}.csv'.format('search_coordinates_healpix'))
     print(search_coordinates.columns)
     print('Ready to search the Magellanic Clouds!')
     # MN: To search directly from Astrolab
-    for i in search_coordinates['healpix']:
-         data_dir = submit_job(i) 
+    # Sequential version (one pixel at a time), kept for reference:
+    # for i in search_coordinates['healpix']:
+    #      data_dir = submit_job(i)
+
+    # Run n_threads search jobs at a time (each job is one search.py subprocess)
+    with Pool(n_threads) as pool:
+        pool.map(submit_job, list(search_coordinates['healpix']))
 
     # # Results directory
-    results_dir = '/user/HS501/mn00962/Documents/simple_adl/simple_adl/results_dir_parallel/'
+    results_dir = '/user/HS501/mn00962/Documents/simple_morpho_delvemc/simple_adl_morpho/results_dir_parallel/'
 
  
