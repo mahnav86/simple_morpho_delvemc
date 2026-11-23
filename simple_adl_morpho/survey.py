@@ -124,7 +124,8 @@ class Region():
         # Cone must cover the whole HEALPix pixel (max edge distance from centre is
         # 1.56-1.86 deg at nside 32) plus margin for the 2' smoothing. Peaks are
         # still kept only inside the pixel (cutcut in find_peaks).
-        r_radius = 1.9 # MN: radius of the region in degrees
+        r_radius = 1.0337 # MN: radius of the region in degrees (equal area to an nside=32 pixel, 3.36 deg^2)
+        # r_radius = 1.9026 # MN: circumscribes an nside=32 pixel (hp.max_pixrad(32)); covers the pixel but ~11.4 deg^2
 
         # Query mode, chosen per run: 'cone' (default, coordinates) or 'healpix'
         # (ring256 query of the nside=32 pixel). Set with search.py --query.

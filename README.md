@@ -10,7 +10,7 @@ It is a work in progress.
 
 | File | Purpose |
 |---|---|
-| `query_morpho.py` | Cone search (default radius 1.9 deg) on DELVE-MC DR3, with morphocloud star/galaxy separation. Used by `survey.py`. |
+| `query_morpho.py` | Cone search (default radius 1.0337 deg, equal area to an nside=32 pixel) on DELVE-MC DR3, with morphocloud star/galaxy separation. Used by `survey.py`. |
 | `query_healpix_morpho.py` | HEALPix version: selects objects by `ring256` for a set of nside=32 pixels, no calibration. |
 | `morpho_separation.py` | TAP fetch and morphocloud classifier used by the queries above. |
 | `query_dl.py`, `query_healpix.py`, `query_healpix_nei.py` | Earlier Data Lab queries (SQL star/galaxy cuts). |
@@ -68,13 +68,21 @@ python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outf
 
 `search.py` and `plot_hotspot.py` take `--query cone|healpix`:
 
-- `cone` (default): queries a 1.9 deg circle around the search position by coordinates
+- `cone` (default): queries a 1.0337 deg circle (equal area to the nside=32 pixel) around the search position by coordinates
   (`query_morpho`).
 - `healpix`: queries the `ring256` pixels covering the nside=32 search pixel
   (`query_healpix_morpho`). Use with `--nside 32 --ipix <pixel>`.
 
 The default is `cone`, because `config.yaml` has no `query` key. `--query` overrides it for that
 run only. Use the same mode for a search and its plot.
+
+**The two modes can give different peaks, even with the same catalogue and classifier.** Both
+modes select from `delve_dr3.mc_object` with the same magnitude and brick cuts, but they select
+different sky: the cone is a disc, and the HEALPix query is one nside=32 pixel. The classifier
+(`morpho_separation.classify`) also takes a seeing value, the median FWHM of the table it
+receives. The cone uses the disc and HEALPix uses the pixel, so the seeing values differ. Seeing
+feeds the `SEEING` and `FWHM_RATIO` features, so the star/galaxy probabilities and the peaks
+shift. When comparing modes, report the mode and the sky region with each result.
 
 ```bash
 # cone (default)
