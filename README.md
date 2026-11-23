@@ -76,13 +76,15 @@ python simple_adl_morpho/search.py --config simple_adl_morpho/config.yaml --outf
 The default is `cone`, because `config.yaml` has no `query` key. `--query` overrides it for that
 run only. Use the same mode for a search and its plot.
 
-**The two modes can give different peaks, even with the same catalogue and classifier.** Both
-modes select from `delve_dr3.mc_object` with the same magnitude and brick cuts, but they select
-different sky: the cone is a disc, and the HEALPix query is one nside=32 pixel. The classifier
-(`morpho_separation.classify`) also takes a seeing value, the median FWHM of the table it
-receives. The cone uses the disc and HEALPix uses the pixel, so the seeing values differ. Seeing
-feeds the `SEEING` and `FWHM_RATIO` features, so the star/galaxy probabilities and the peaks
-shift. When comparing modes, report the mode and the sky region with each result.
+**The two modes can give different peaks, even with the same catalogue and classifier.** 
+The two modes can produce different peaks, even with the same catalogue and classifier, because they select different sky regions. 
+The cone search selects sources within a circular region, while the HEALPix query selects sources within a single pixel at `nside=32`. 
+The catalogue includes a `ring256` keyword, which links the `nside=32` pixels to their corresponding smaller pixels at `nside=256`. 
+This allows the query to identify the sources belonging to a specific `nside=32` pixel, consistent with `search_coordinates_healpix.csv`.
+Additionally, the classifier (`morpho_separation.classify`) uses the median FWHM of the selected sources as the seeing value. 
+Since the two modes may return different sources, their seeing values can differ, 
+affecting the `SEEING` and `FWHM_RATIO` features and, consequently, the star/galaxy probabilities and resulting peaks.
+
 
 ```bash
 # cone (default)
